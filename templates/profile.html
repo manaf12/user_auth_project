@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Profile</title>
+</head>
+<body>
+    <h2>User Profile</h2>
+    <div id="profile"></div>
+    <p id="error"></p>
+    <button onclick="logout()">Logout</button>
+
+    <script>
+        async function fetchProfile() {
+            const token = localStorage.getItem('access');
+
+            const response = await fetch('http://127.0.0.1:8000/profile/', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                document.getElementById('profile').innerHTML = `
+                    <p><strong>Name:</strong> ${result.name}</p>
+                    <p><strong>Email:</strong> ${result.email}</p>
+                    <p><strong>ID:</strong> ${result.id}</p>
+                `;
+            } else {
+                document.getElementById('error').textContent = "Access denied. Please login.";
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('access');
+            localStorage.removeItem('refresh');
+            window.location.href = '/login.html';
+        }
+
+        fetchProfile();
+    </script>
+</body>
+</html>
