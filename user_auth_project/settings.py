@@ -1,5 +1,6 @@
 from pathlib import Path
-from decouple import config
+from datetime import timedelta
+# from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-(0mokoq2z$_&yex_$j*ip=$1pfm)zlmj_tey^=d7$%159u#y6r'
@@ -108,3 +109,12 @@ else:
 
 
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),      
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),      
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'ALGORITHM': 'HS256',
+}
